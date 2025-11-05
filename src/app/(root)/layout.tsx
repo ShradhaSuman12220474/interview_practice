@@ -1,8 +1,14 @@
+import { AuthProvider } from '@/context/AuthContext'
 import {ReactNode} from 'react'
 
 const RootLayout = ({children} : {children:ReactNode}) => {
   return (
-    <div>{children}</div>
+    <div>
+        <AuthProvider>
+            {children}
+        </AuthProvider>
+
+    </div>
   )
 }
 

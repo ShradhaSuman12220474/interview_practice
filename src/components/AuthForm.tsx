@@ -7,6 +7,10 @@ import FormField from "./FormField"
 import { Button } from "./ui/button"
 import Link from "next/link"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import { FormType } from "../../types"
+import { axiosInstance } from "@/lib/axiosInstance"
+import { useAuth } from "@/context/AuthContext"
 
 const authFormSchema = (type: FormType)=>{
     return z.object({
@@ -17,9 +21,10 @@ const authFormSchema = (type: FormType)=>{
 };
 
 const AuthForm = ({type}:{type:FormType}) => {
-
+    const router = useRouter();
     const signedIn = type === 'sign-in';
     const formSchema = authFormSchema(type);
+    const { login } = useAuth();
 
     const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -29,7 +34,7 @@ const AuthForm = ({type}:{type:FormType}) => {
       password:"",
     },
   })
-   function onSubmit(data: z.infer<typeof formSchema>) {
+   async function onSubmit(data: z.infer<typeof formSchema>) {
     // Do something with the form values.
     console.log(data)
     try{
@@ -37,13 +42,17 @@ const AuthForm = ({type}:{type:FormType}) => {
         if(type === 'sign-in'){
             const {email,password} = data;
             // make an call 
-
+            const response = await axiosInstance.post('/users/signIn',data);
+            login(response.data.data);
             toast.success("signed In successfully");
+            router.push('/dashboard');
+            
         }
         else {
             const {name, email, password} = data;
-
+            const response = await axiosInstance.post('/users/signUp',data);
             toast.success("signed Up successfully");
+            router.push("/sign-in");
         }
     }
     catch(error){

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mona_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/context/AuthContext";
 
 const monaSans = Mona_Sans({
   variable: "--font-mona-sans",
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body
         className={`${monaSans.className} antialiased pattern`}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <Toaster richColors position="top-right" />
       </body>
     </html>
