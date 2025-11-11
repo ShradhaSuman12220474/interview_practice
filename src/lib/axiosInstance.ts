@@ -3,7 +3,7 @@ import axios, {  AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosRes
 
 const PUBLIC_ROUTES = ['/signIn', '/signUp', '/forgot-password'];
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1",
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api/v1` || "http://localhost:8000/api/v1",
   timeout: 10000, // 10 seconds
   headers: {
     "Content-Type": "application/json",
