@@ -45,7 +45,7 @@ const AuthForm = ({type}:{type:FormType}) => {
             const response = await axiosInstance.post('/users/signIn',data);
             login(response.data.data);
             toast.success("signed In successfully");
-            router.push('/dashboard');
+            // router.push('/dashboard');
             
         }
         else {

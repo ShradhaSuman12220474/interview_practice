@@ -14,11 +14,11 @@
 }
 
 interface Interview {
-  id: string;
+  _id: string;
   role: string;
   level: string;
   questions: string[];
-  techstack: string[];
+  techStack: string[];
   createdAt: string;
   userId: string;
   type: string;
@@ -39,7 +39,7 @@ interface User {
 }
 
 interface InterviewCardProps {
-  interviewId?: string;
+  _id?: string;
   userId?: string;
   role: string;
   type: string;
@@ -48,7 +48,7 @@ interface InterviewCardProps {
 }
 
 interface AgentProps {
-  userName: string;
+  userName?: string;
   userId?: string;
   interviewId?: string;
   feedbackId?: string;

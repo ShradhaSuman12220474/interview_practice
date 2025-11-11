@@ -8,7 +8,7 @@ import Link from 'next/link';
 import DisplayTechIcons from './DisplayTechIcons';
 
 const InterviewCard = (props: InterviewCardProps) => {
-    const {interviewId , userId, role, type , techstack, createdAt} = props;
+    const {_id , userId, role, type , techstack, createdAt} = props;
     const feedback = null as Feedback | null;
     // learn about this.
     const normalizedType = /mix/gi.test(type) ? 'Mixed' : type;
@@ -68,8 +68,8 @@ const InterviewCard = (props: InterviewCardProps) => {
             <Link
               href={
                 feedback
-                  ? `/interview/${interviewId}/feedback`
-                  : `/interview/${interviewId}`
+                  ? `/interview/${_id}/feedback`
+                  : `/interview/${_id}`
               }
             >
               {feedback ? "Check Feedback" : "View Interview"}

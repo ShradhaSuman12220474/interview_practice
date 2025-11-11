@@ -1,8 +1,39 @@
+"use client";
 import InterviewCard from '@/components/InterviewCard'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
-import { dummyInterviews } from '../../../constants'
+import { Interview } from '../../../types';
+import { useEffect, useState } from 'react';
+import { axiosInstance } from '@/lib/axiosInstance';
+import { useAuth } from '@/context/AuthContext';
+
+// import { useEffect } from 'react'
+
+export const dummyInterviews: Interview[] = [
+  {
+    id: "1",
+    userId: "user1",
+    role: "Frontend Developer",
+    type: "Technical",
+    techstack: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+    level: "Junior",
+    questions: ["What is React?"],
+    finalized: false,
+    createdAt: "2024-03-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    userId: "user1",
+    role: "Full Stack Developer",
+    type: "Mixed",
+    techstack: ["Node.js", "Express", "MongoDB", "React"],
+    level: "Senior",
+    questions: ["What is Node.js?"],
+    finalized: false,
+    createdAt: "2024-03-14T15:30:00Z",
+  },
+];
 
 const page = () => {
     // const [userInterviews, allInterview] = await Promise.all([
@@ -11,7 +42,25 @@ const page = () => {
     // ]);
     // const hasPastInterviews = userInterviews?.length! > 0;
     // const hasUpcomingInterviews = allInterview?.length! > 0;
-    const hasPastInterviews = true;
+    // const hasPastInterviews = true;
+    const [interviews, setInterviews] = useState<Interview[]>([]);
+    const {user} = useAuth();
+  useEffect(() => {
+    const fetchInterviews = async () => {
+      try {
+        console.log(user!.userId);
+        if(user){
+            const res = await axiosInstance.get('/interview',{ params: { userId: user.userId }}); // or /interview?userId=...
+            setInterviews(res.data.data);
+            console.log(res);
+        }
+      } catch (err) {
+        console.error("Error fetching interviews:", err);
+      }
+    };
+
+    fetchInterviews();
+  }, []); // 👈 empty array = run once
   return (
     <>
 
@@ -34,9 +83,10 @@ const page = () => {
 
     <section className='flex flex-col gap-6 mt-8'>
         <h2>Your Interview</h2>
+        {/* This will show all the interviews that you have generated */}
         <div className='interviews-section'>
-            {dummyInterviews.map((interview)=>(
-                <InterviewCard {...interview} key={interview.id}/>
+            {interviews.map((interview)=>(
+                <InterviewCard {...interview} key={interview._id}/>
             )
             )}
         </div>
@@ -45,9 +95,10 @@ const page = () => {
     <section className='flex flex-col gap-6 mt-8'>
 
         <h2>Take Interview</h2>
+        {/* This will display the public interviews */}
         <div className='interviews-section'>
-        {dummyInterviews.map((interview)=>(
-                <InterviewCard {...interview} key={interview.id}/>
+        {interviews.map((interview)=>(
+                <InterviewCard {...interview} key={interview._id}/>
             )
             )}
         </div>
