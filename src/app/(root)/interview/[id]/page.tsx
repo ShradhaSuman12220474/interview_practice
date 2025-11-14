@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import { Interview, RouteParams } from '../../../../../types'
+import { Feedback, Interview, RouteParams } from '../../../../../types'
 import Image from 'next/image';
 import DisplayTechIcons from '@/components/DisplayTechIcons';
 import Agent from '@/components/Agent';
@@ -14,21 +14,38 @@ const page = () => {
     // const { id } = params; // or useParams() if you're in Next.js
     const params = useParams(); // ✅ not async
     const [interview, setInterviews] = useState<Interview|null>(null);
+    const [feedback, setFeedback] = useState<Feedback|null>(null);
     const {user} = useAuth();
     useEffect(() => {
         console.log("helo");
-  const fetchInterview = async () => {
-    try {
-      
-      const res = await axiosInstance.get(`/interview/${params.id}`);
-      console.log(res.data);
-      setInterviews(res.data.data);
-    } catch (err) {
-      console.error("Error fetching interview:", err);
-    }
+    const fetchInterview = async () => {
+      try {
+        
+        const res = await axiosInstance.get(`/interview/${params.id}`);
+        console.log(res.data);
+        setInterviews(res.data.data);
+      } catch (err) {
+        console.error("Error fetching interview:", err);
+      }
   };
 
   fetchInterview();
+}, [params.id]);
+
+useEffect(() => {
+        console.log("helo");
+    const fetchFeedback = async () => {
+      try {
+        
+        // const res = await axiosInstance.get(`/interview/${params.id}`);
+        // console.log(res.data);
+        // setInterviews();
+      } catch (err) {
+        console.error("Error fetching interview:", err);
+      }
+  };
+
+  fetchFeedback();
 }, [params.id]);
   return (
     <>
@@ -56,11 +73,11 @@ const page = () => {
       </div>
       <Agent
         userName={user?.name!}
-        userId={user?.id}
+        userId={user?.userId}
         interviewId={params.id?.toString()}
         type="interview"
         questions={interview.questions}
-        // feedbackId={feedback?.id}
+        feedbackId={feedback?._id}
       />
     </div>)}
     </>

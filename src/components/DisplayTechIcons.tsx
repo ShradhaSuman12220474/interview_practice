@@ -33,6 +33,7 @@ const DisplayTechIcons =  ({ techStack }: TechIconProps) => {
             "relative group bg-dark-300 rounded-full p-2 flex flex-center",
             index >= 1 && "-ml-3"
           )}
+          
         >
           <span className="tech-tooltip">{tech}</span>
 

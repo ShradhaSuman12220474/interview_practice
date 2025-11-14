@@ -1,5 +1,5 @@
  export interface Feedback {
-  id: string;
+  _id: string;
   interviewId: string;
   totalScore: number;
   categoryScores: Array<{

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { vapi } from '@/lib/vapi.sdk';
 import { Message } from '../../types/vapi';
 import { interviewer } from '../../constants';
+import { axiosInstance } from '@/lib/axiosInstance';
 interface SavedMessage {
   role: "user" | "system" | "assistant";
   content: string;
@@ -94,6 +95,11 @@ const Agent = ({
     //     transcript: messages,
     //     feedbackId,
     //   });
+    console.log("transcript " , messages);
+    console.log("userId", userId);
+
+    const response = await axiosInstance.post('/feedback/generate',{userId: userId, interviewId: interviewId!, transcript:messages});
+    console.log(response);
     const success = true;
     const id = "1234";
 
@@ -193,7 +199,7 @@ const Agent = ({
             >
               {lastMessage}
             </p>
-          </div>f
+          </div>
         </div>
       )}
 

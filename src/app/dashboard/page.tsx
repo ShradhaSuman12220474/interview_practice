@@ -48,8 +48,9 @@ const page = () => {
   useEffect(() => {
     const fetchInterviews = async () => {
       try {
-        console.log(user!.userId);
+        // console.log(user!.userId);
         if(user){
+            console.log(user);
             const res = await axiosInstance.get('/interview',{ params: { userId: user.userId }}); // or /interview?userId=...
             setInterviews(res.data.data);
             console.log(res);
